@@ -14,14 +14,24 @@ import { Container, Form } from "./styles";
 export function New() {
   const [links, setLinks] = useState([]);
   const [newLink, setNewLink] = useState("");
+  const [tags, setTags] = useState([]);
+  const [newTag, setNewTag] = useState("");
 
   function handleAddLink() {
     setLinks((prevState) => [...prevState, newLink]);
     setNewLink("");
   }
+  function handleRemoveLink(linkDeleted) {
+    setLinks((prevState) => prevState.filter((link) => link !== linkDeleted));
+  }
 
-  function handleRemoveLink(deleted){
-    setLinks(prevState => prevState.filter(link => link !== deleted))
+  function handleAddTag() {
+    setTags((prevState) => [...prevState, newTag]);
+    setNewTag("");
+  }
+
+  function handleRemoveTag(tagDeleted) {
+    setTags((prevState) => prevState.filter((tag) => tag !== tagDeleted));
   }
 
   return (
@@ -39,14 +49,15 @@ export function New() {
           <Textarea placeholder="Observações" />
 
           <Section title="Links úteis">
-            {
-              links.map((link, index) => (
-                <NoteItem
-                  key={String(index)}
-                  value={link}
-                  onClick={() => {handleRemoveLink(link) }} />
-              ))
-            }
+            {links.map((link, index) => (
+              <NoteItem
+                key={String(index)}
+                value={link}
+                onClick={() => {
+                  handleRemoveLink(link);
+                }}
+              />
+            ))}
 
             <NoteItem
               isNew
@@ -59,8 +70,23 @@ export function New() {
 
           <Section title="Marcadores">
             <div className="tags">
-              <NoteItem value="react" />
-              <NoteItem isNew placeholder="Nova tag" />
+              {tags.map((tag, index) => (
+                <NoteItem
+                  key={String(index)}
+                  value={tag}
+                  onClick={() => {
+                    handleRemoveTag(tag);
+                  }}
+                />
+              ))}
+
+              <NoteItem
+                isNew
+                placeholder="Nova tag"
+                value={newTag}
+                onChange={(e) => setNewTag(e.target.value)}
+                onClick={handleAddTag}
+              />
             </div>
           </Section>
 
