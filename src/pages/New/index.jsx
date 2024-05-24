@@ -42,7 +42,26 @@ export function New() {
     setTags((prevState) => prevState.filter((tag) => tag !== tagDeleted));
   }
 
-  async function handleNewNote(){
+  async function handleNewNote() {
+    if (!title) {
+      return alert("Digite o título da nota.");
+    }
+    if (newLink && newTag) {
+      return alert(
+        "Você deixou um link e uma tag no campo para adicionar mas não clicou em adicionar. Click para adicionar ou deixe o campo vazio"
+      );
+    }
+    if (newLink) {
+      return alert(
+        "Você deixou um link  no campo para adicionar mas não clicou em adicionar. Click para adicionar ou deixe o campo vazio"
+      );
+    }
+    if (newTag) {
+      return alert(
+        "Você deixou uma tag no campo para adicionar mas não clicou em adicionar. Click para adicionar ou deixe o campo vazio"
+      );
+    }
+
     await api.post("/notes", {
       title,
       description,
@@ -64,14 +83,14 @@ export function New() {
             <Link to="/">voltar</Link>
           </header>
 
-          <Input 
-            placeholder="Título" 
-            onChange={e => setTitle(e.targe.value)}
+          <Input
+            placeholder="Título"
+            onChange={(e) => setTitle(e.target.value)}
           />
 
-          <Textarea 
-            placeholder="Observações" 
-            onChange={e => setDescription(e.targe.value)}
+          <Textarea
+            placeholder="Observações"
+            onChange={(e) => setDescription(e.target.value)}
           />
 
           <Section title="Links úteis">
@@ -116,10 +135,7 @@ export function New() {
             </div>
           </Section>
 
-          <Button 
-            title="Salvar"
-            onClick={handleNewNote} 
-          />
+          <Button title="Salvar" onClick={handleNewNote} />
         </Form>
       </main>
     </Container>
