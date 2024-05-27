@@ -52,7 +52,6 @@ export function Home() {
       const response = await api.get(
         `/notes?title=${search}&tags=${tagsSelected}`
       );
-      console.log(response.data)
       setNotes(response.data);
     }
 

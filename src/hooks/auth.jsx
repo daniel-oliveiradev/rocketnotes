@@ -45,6 +45,7 @@ function AuthProvider({ children }) {
       }
 
       await api.put("/users", user);
+      console.log(user)
       localStorage.setItem("@rocketnotes:user", JSON.stringify(user));
 
       setData({ user, token: data.token });

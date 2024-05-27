@@ -24,25 +24,28 @@ export function Profile() {
     : avatarPlaceholder;
 
   const [avatar, setAvatar] = useState(avatarUrl);
-  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarFiles, setAvatarFile] = useState(user.avatar || null);
 
   async function handleUpdate() {
-    const user = {
+    const updatedUser = {
+      ...user,
       name,
       email,
       password: password,
       old_password: passwordOld,
     };
 
-    await updateProfile({ user, avatarFile });
+    await updateProfile({ user: updatedUser, avatarFiles });
   }
 
-  function handleChangeAvatar(event) {
+  async function handleChangeAvatar(event) {
     const file = event.target.files[0];
     setAvatarFile(file);
 
     const imagePreview = URL.createObjectURL(file);
     setAvatar(imagePreview);
+
+    // await updateProfile({ user, avatarFile: file });
   }
 
   return (
