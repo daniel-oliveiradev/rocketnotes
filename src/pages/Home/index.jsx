@@ -39,7 +39,7 @@ export function Home() {
   useEffect(() => {
     async function fetchNotes() {
       const response = await api.get(
-        `/notes/list?title=${search}&tags=${tagsSelected}`
+        `/notes?title=${search}&tags=${tagsSelected}`
       );
       console.log(response.data)
       setNotes(response.data);
