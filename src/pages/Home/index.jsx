@@ -13,15 +13,17 @@ import { api } from "../../service/api";
 export function Home() {
   const [tags, setTags] = useState([]);
   const [tagsSelected, setTagsSelected] = useState([]);
+  const [search, setSearch] = useState("");
+  const [notes, setNotes] = useState([]);
 
-  function handleTagSelected(tagName){
+  function handleTagSelected(tagName) {
     const alreadySelected = tagsSelected.includes(tagName);
-    
-    if(alreadySelected){
-      const filteredTags = tagsSelected.filter(tag => tag !== tagName);
+
+    if (alreadySelected) {
+      const filteredTags = tagsSelected.filter((tag) => tag !== tagName);
       setTagsSelected(filteredTags);
-    }else{
-      setTagsSelected(prevState => [...prevState, tagName]);
+    } else {
+      setTagsSelected((prevState) => [...prevState, tagName]);
     }
   }
 
@@ -34,6 +36,18 @@ export function Home() {
     fetchTags();
   }, []);
 
+  useEffect(() => {
+    async function fetchNotes() {
+      const response = await api.get(
+        `/notes/list?title=${search}&tags=${tagsSelected}`
+      );
+      console.log(response.data)
+      setNotes(response.data);
+    }
+
+    fetchNotes();
+  }, [tagsSelected, search]);
+
   return (
     <Container>
       <Brand>
@@ -44,8 +58,8 @@ export function Home() {
 
       <Menu>
         <li>
-          <ButtonText 
-            title="Todos" 
+          <ButtonText
+            title="Todos"
             onClick={() => handleTagSelected("all")}
             isActive={tagsSelected.length === 0}
           />
@@ -53,8 +67,8 @@ export function Home() {
         {tags &&
           tags.map((tag, index) => (
             <li key={String(index)}>
-              <ButtonText 
-                title={tag.name} 
+              <ButtonText
+                title={tag.name}
                 onClick={() => handleTagSelected(tag.name)}
                 isActive={tagsSelected.includes(tag.name)}
               />
@@ -63,20 +77,23 @@ export function Home() {
       </Menu>
 
       <Search>
-        <Input placeholder="Pesquisar pelo título" icon={FiSearch} />
+        <Input
+          placeholder="Pesquisar pelo título"
+          icon={FiSearch}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </Search>
 
       <Content>
         <Section title="Minhas notas">
-          <Note
-            data={{
-              title: "React",
-              tags: [
-                { id: "1", name: "react" },
-                { id: "2", name: "rockeseat" },
-              ],
-            }}
-          />
+          {
+            notes.map(note => (
+              <Note
+                key={String(note.id)}
+                data={note}
+              />
+            ))
+          }
         </Section>
       </Content>
 
