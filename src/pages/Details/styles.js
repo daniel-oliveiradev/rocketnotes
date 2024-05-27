@@ -39,6 +39,7 @@ export const Content = styled.div`
 
   > button:first-child{
     align-self: end;
+    color: ${({ theme }) => theme.COLORS.RED};
   }
 
   > h1{

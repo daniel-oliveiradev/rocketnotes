@@ -16,16 +16,16 @@ export function Details() {
   const params = useParams();
   const navigate = useNavigate();
 
-  function handleBack(){
-    navigate("/")
+  function handleBack() {
+    navigate(-1);
   }
 
-  async function handleRemove(){
+  async function handleRemove() {
     const confirm = window.confirm("Deseja realmente remover a nota?");
 
-    if(confirm){
+    if (confirm) {
       await api.delete(`/notes/${params.id}`);
-      navigate("/");
+      navigate(-1);
     }
   }
 
@@ -41,13 +41,11 @@ export function Details() {
     <Container>
       <Header />
 
-      {
-      data && (
+      {data && (
         <main>
           <Content>
             <ButtonText title="Excluir nota" onClick={handleRemove} />
 
-            
             <h1>{data.title}</h1>
 
             <p>{data.description}</p>
@@ -71,7 +69,7 @@ export function Details() {
               </Section>
             )}
 
-            <Button title="Voltar" onClick={handleBack}  />
+            <Button title="Voltar" onClick={handleBack} />
           </Content>
         </main>
       )}
