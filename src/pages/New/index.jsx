@@ -12,7 +12,7 @@ import { Section } from "../../components/Section";
 import { Button } from "../../components/Button";
 
 import { Container, Form } from "./styles";
-import { ButtonText } from './../../components/ButtonText/index';
+import { ButtonText } from "../../components/ButtonText"
 
 export function New() {
   const [title, setTitle] = useState("");
