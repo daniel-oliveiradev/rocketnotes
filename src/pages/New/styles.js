@@ -35,7 +35,7 @@ export const Form = styled.form`
 
     button{
       font-size: 20px;
-      color: ${({ theme }) => theme.COLORS.GRAY_100};
+      color: ${({ theme }) => theme.COLORS.GRAY_300};
       transition: color .2s;
     }
 
